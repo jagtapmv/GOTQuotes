@@ -3,9 +3,25 @@ const quotetext = document.getElementById('quote');
 const quoteAuthor = document.getElementById('author');
 const twitterButton = document.getElementById('twitter');
 const newQuoteButton = document.getElementById('new-quote');
+const loader = document.getElementById('loader');
+
+//Loading
+function Loading(){
+    loader.hidden = false;
+    quoteContainer.hidden = true;
+}
+
+function Complete(){
+    if(!loader.hidden){
+        loader.hidden = true;
+        quoteContainer.hidden = false;
+    }
+}
 
 //Get quote from API
 async function getQuote(){
+    //Will load till Complete()
+    Loading();
     const apiUrl = "https://api.gameofthronesquotes.xyz/v1/random"
     const proxyUrl = 'https://whispering-tor-04671.herokuapp.com/'
 
@@ -26,6 +42,8 @@ async function getQuote(){
     } catch(error){
         getQuote();
     }
+    //Stop Loading
+    Complete();
 }
 
 //tweet the current Quote
